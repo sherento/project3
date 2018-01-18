@@ -90,7 +90,7 @@
 //init function set up, inside renderer settings created
 //renderer using webGL to give fastest render speed to content
 //background alpha value set to transparent so that camera image can be seen behind this
-    function init() {
+  function init() {
         renderer = new THREE.WebGLRenderer({
             alpha: true
         });
@@ -155,7 +155,98 @@
 //AR.js needs context set up, calling three.js extension to do so
 //here it takes camera data file, in data folder and detects 30 frames per second with canvas width and height set up
 
+//////// Initialize ArToolkitContext /////////
+// create atToolkitContext
+        arToolkitContext = new THREEx.ArToolkitContext({
+            cameraParametersUrl: 'data/camera_para.dat',
+            detectionMode: 'mono',
+            maxDetectionRate: 30,
+            canvasWidth: 80 * 3,
+            canvasHeight: 60 * 3,
+        });
+//AR toolkit now initialised and now camera in webGL scene gets the same projection matrix as the input camera from the AR toolkit
+//the AR toolkit is pushed in the render queue so it can be displayed on screen every frame
+// initialize it
+        arToolkitContext.init(function onCompleted() {
+            camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
+        });
+        // update artoolkit on every frame
+        onRenderFcts.push(function() {
+            if (arToolkitSource.ready === false) return
+            arToolkitContext.update(arToolkitSource.domElement)
+        });
 
+//match the marker
+//the market root is group used to match shape in augmented reality
+//first added to scene then used along with AR toolkit to detect the pattern located in data folder
+
+//////// Create ArMarkerControls /////////
+        markerRoot = new THREE.Group
+        scene.add(markerRoot)
+        artoolkitMarker = new THREEx.ArMarkerControls(arToolkitContext, markerRoot, {
+            type: 'pattern',
+            patternUrl: 'data/patt.hiro'
+        });
+
+  //add model
+//earlier model was loaded and stored in varibale model
+//this is added to markerRoot group
+//model has specific elements in it that is going to be animated in every frame
+//this is then pushed into render queue
+
+//////// Add object to scene via the marker /////////
+        markerRoot.add(model);
+
+        onRenderFcts.push(function() {
+            tube1.rotation.y -= 0.01;
+            tube2.rotation.y += 0.005;
+            mid.rotation.y -= 0.008;
+            details.position.y = (5 + 3 * Math.sin(1.2 * pulse));
+        });
+
+//finish the init function
+//the renderer is told to render the scene with the camera every frame by adding it to render queue
+//i.e the empty array set, onRenderFcts
+//animate function is called, this will render every frame to display content
+//close init function
+
+// render the scene
+        onRenderFcts.push(function() {
+            renderer.render(scene, camera)
+        });
+        // run the rendering loop
+        lastTimeMsec = null;
+
+        animate();
+
+  }
+
+//now create animate function
+//use browsers requestAnimationFrame, a call to repaint before screen is drawn
+//this continues to call itself, and browser attempts to call this function at 60 frames per second
+  function animate(nowMsec) {
+
+      // keep looping
+      requestAnimationFrame(animate);
+
+//timing
+//sometimes mobile browsers may not be able to do 60 frames per second with other apps running
+//so code here, screen is updated based on timing
+//so if frames drop, looks much smoother
+      // measure time
+      lastTimeMsec = lastTimeMsec || nowMsec - 1000 / 60;
+      var deltaMsec = Math.min(200, nowMsec - lastTimeMsec);
+      lastTimeMsec = nowMsec;
+      pulse = Date.now() * 0.0009;
+
+//finally each of the elements is the render queue are now rendered to screen
+//view from https server
+      // call each update function
+      onRenderFcts.forEach(function(onRenderFct) {
+          onRenderFct(deltaMsec / 1000, nowMsec / 1000);
+      });
+
+  }
 
   </script>
 
