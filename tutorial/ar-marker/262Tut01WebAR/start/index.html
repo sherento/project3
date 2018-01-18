@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Designer Magazine - AR.js Tutorial</title>
+    <link rel="stylesheet" href="style.css">
+    <script src='js/three.js'></script>
+    <script src="js/ColladaLoader.js"></script>
+    <script src="vendor/jsartoolkit5/build/artoolkit.min.js"></script>
+    <script src="vendor/jsartoolkit5/js/artoolkit.api.js"></script>
+    <script src="threex-artoolkitsource.js"></script>
+    <script src="threex-artoolkitcontext.js"></script>
+    <script src="threex-armarkercontrols.js"></script>
+    <script>THREEx.ArToolkitContext.baseURL = '/'</script>
+</head>
+
+<body>
+
+  <style>
+
+      body {
+          background: #00d8ff;
+          margin: 0px;
+          overflow: hidden;
+      }
+
+      canvas {
+          position: absolute;
+          top: 0;
+          left: 0;
+      }
+
+  </style>
+
+  <script>
+
+//variables for first line: three.js, second: AR.js, third: model then varibale to load the model
+  const renderer, scene, camera;
+  const arToolkitContext, onRenderFcts, arToolkitSource, markerRoot, artoolkitMarker, lastTimeMsec;
+  const model, tube1, tube2, mid, details, pulse;
+  const loader = new THREE.ColladaLoader();
+
+//before the scene is set up, the model will be loaded so it can be displayed when the marker is detected
+
+  loader.load('model/scene.dae', function(collada) {
+
+    model = collada.scene;
+    model.scale.x = model.scale.y = model.scale.z = 0.1;
+//scaled down by 10 so that it fits the AR marker
+//model is 10cm width and height
+//marker is 1cm which translate to 1 increment in three.js
+
+    details = model.getObjectByName("details", true);
+
+//once loaded, there will be a couple of tubes that spins
+//first tube is found, material grabbed
+//here the material is set to render on the inside of the model and not outside
+
+    tube1 = model.getObjectByName("tube1", true);
+    var a = tube1.children[0].material;
+    a.transparent = true;
+    a.side = THREE["BackSide"];
+    a.blending = THREE["AdditiveBlending"];
+    a.opacity = 0.9;
+
+//tube 2 to add as a blend to make a softer transition
+    tube2 = model.getObjectByName("tube2", true);
+    c = tube2.children[0].material;
+    c.transparent = true;
+    c.side = THREE["BackSide"];
+    c.blending = THREE["AdditiveBlending"];
+    c.opacity = 0.9;
+
+//spinning circle in middle of design
+//renders at front with opacity set 90%
+//once loaded init function is called
+    mid = model.getObjectByName("mid", true);
+    b = mid.children[0].material;
+    b.transparent = true;
+    b.blending = THREE["AdditiveBlending"];
+    b.opacity = 0.9;
+
+    init();
+
+    });
+
+// init renderer
+//init function set up, inside renderer settings created
+//renderer using webGL to give fastest render speed to content
+//background alpha value set to transparent so that camera image can be seen behind this
+    function init() {
+        renderer = new THREE.WebGLRenderer({
+            alpha: true
+        });
+        renderer.setClearColor(new THREE.Color('lightgrey'), 0);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+//create scene display
+//renderer made to same size as browser window and added to document object model
+//empty array created to store objects that must be rendered
+//new scene is created so that content can be displayed inside of this
+
+        // array of functions for the rendering loop
+        onRenderFcts = [];
+
+        // init scene and camera
+        scene = new THREE.Scene();
+
+//to be able to see contents, need lights
+//one is ambient grey light
+//other is directional light, nuted blue colour for slight tint to 3D content displayed on scene
+
+//lights
+        var ambient = new THREE.AmbientLight(0x666666);
+        scene.add(ambient);
+        var directionalLight = new THREE.DirectionalLight(0x4e5ba0);
+        directionalLight.position.set(-1, 1, 1).normalize();
+        scene.add(directionalLight);
+
+//set up camera
+//once created need to be added to scene
+//camera will auto align with webcam or phone camera through AR.js
+//////// Inititalize Basic Camera /////////
+        camera = new THREE.Camera();
+        scene.add(camera);
+
+//set up AR.js
+//now AR.js is set up that it takes webcam as its input
+//can also take image or prerecorded video
+//AR toolkit is told to initialise and if resized will match same as render on html page
+
+//////// Handle ARToolkitSource /////////
+        arToolkitSource = new THREEx.ArToolkitSource({
+            // to read from the webcam
+            sourceType: 'webcam',
+        });
+
+        arToolkitSource.init(function onReady() {
+            // handle resize of renderer
+            arToolkitSource.onResize(renderer.domElement)
+        });
+
+//resize and reorientates
+//add an event listener to browser window to check resizing
+
+// handle resize
+        window.addEventListener('resize', function() {
+            // handle arToolkitSource resize
+            arToolkitSource.onResize(renderer.domElement)
+        });
+
+//AR.js needs context set up, calling three.js extension to do so
+//here it takes camera data file, in data folder and detects 30 frames per second with canvas width and height set up
+
+
+
+  </script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
