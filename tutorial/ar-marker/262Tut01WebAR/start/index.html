@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Designer Magazine - AR.js Tutorial</title>
-    <link rel="stylesheet" href="style.css">
     <script src='js/three.js'></script>
     <script src="js/ColladaLoader.js"></script>
     <script src="vendor/jsartoolkit5/build/artoolkit.min.js"></script>
@@ -37,9 +36,9 @@
   <script>
 
 //variables for first line: three.js, second: AR.js, third: model then varibale to load the model
-  const renderer, scene, camera;
-  const arToolkitContext, onRenderFcts, arToolkitSource, markerRoot, artoolkitMarker, lastTimeMsec;
-  const model, tube1, tube2, mid, details, pulse;
+  let renderer, scene, camera;
+  let arToolkitContext, onRenderFcts, arToolkitSource, markerRoot, artoolkitMarker, lastTimeMsec;
+  let model, tube1, tube2, mid, details, pulse;
   const loader = new THREE.ColladaLoader();
 
 //before the scene is set up, the model will be loaded so it can be displayed when the marker is detected
