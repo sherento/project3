@@ -135,7 +135,7 @@ const dodeMarkerControls = new THREEx.ArMarkerControls(
 const dodeGeometry = new THREE.DodecahedronGeometry(0.3, 0);
 const dodeMaterial = new THREE.MeshNormalMaterial({
   transparent: true,
-  opacity: 0.5,
+  opacity: 0.8,
   side: THREE.DoubleSide
 });
 dode = new THREE.Mesh(dodeGeometry, dodeMaterial);
@@ -162,7 +162,7 @@ const cubeMarkerControls = new THREEx.ArMarkerControls(
 const cubeGeometry = new THREE.CubeGeometry(0.3, 0.3, 0.3);
 const cubeMaterial = new THREE.MeshNormalMaterial({
   transparent: true,
-  opacity: 0.5
+  opacity: 0.8
   // side: THREE.DoubleSide
 });
 cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
@@ -188,7 +188,7 @@ const sphereMarkerControls = new THREEx.ArMarkerControls(
 const sphereGeometry = new THREE.SphereGeometry(0.1, 20, 20);
 const sphereMaterial = new THREE.MeshNormalMaterial({
   transparent: true,
-  opacity: 0.5
+  opacity: 0.8
 });
 sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
 sphere.position.x = 1;
@@ -244,7 +244,7 @@ const photo = new THREE.TextureLoader().load(
 );
 const photoMaterial = new THREE.SpriteMaterial({
   map: photo,
-  color: 0xffffff,
+  opacity: 0.6,
   fog: true
 });
 var photoSprite = new THREE.Sprite(photoMaterial);
