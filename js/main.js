@@ -222,7 +222,7 @@ const photo = new THREE.TextureLoader().load(
 );
 const photoMaterial = new THREE.SpriteMaterial({
   map: photo,
-  opacity: 0.6,
+  opacity: 0.8,
   fog: true
 });
 var photoSprite = new THREE.Sprite(photoMaterial);
