@@ -176,68 +176,59 @@ markerRoot3.add(sphere);
 // ///////////////////////////////////////////////////////////////////////////
 // //wdi sticker
 // ///////////////////////////////////////////////////////////////////////////
-// // let markerRoot4 = new THREE.Group
-// // markerRoot4.name = 'marker4'
-// // scene.add( markerRoot4 )
-// // const stickerMarkerControls = new THREEx.ArMarkerControls(arToolkitContext, markerRoot4, {
-// //   type : 'pattern',
-// //   patternUrl : 'image/pattern-WDI24.patt',
-// //   changeMatrixMode: 'cameraTransformMatrix'
-// // })
-// // scene.visible = false
-// //
-// // const map = new THREE.TextureLoader().load( "image/subtlejohn.png" );
-// // const stickerMaterial = new THREE.SpriteMaterial( { map: map, color: 0xffffff, fog: true } );
-// // const stickerSprite = new THREE.Sprite( stickerMaterial );
-// // markerRoot4.add( stickerSprite );
-//
+
 let markerRoot4 = new THREE.Group();
 markerRoot4.name = "marker4";
 scene.add(markerRoot4);
-var markerControls = new THREEx.ArMarkerControls(
+const stickerMarkerControls = new THREEx.ArMarkerControls(
   arToolkitContext,
   markerRoot4,
   {
     type: "pattern",
     patternUrl: THREEx.ArToolkitContext.baseURL + "image/pattern-WDI24.patt"
-    // patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji',
-    // as we controls the camera, set changeMatrixMode: 'cameraTransformMatrix'
-    // changeMatrixMode: 'cameraTransformMatrix'
   }
 );
-//
-// // as we do changeMatrixMode: 'cameraTransformMatrix', start with invisible scene
-// scene.visible = false
-//
-// //////////////////////////////////////////////////////////////////////////////////
-// //		add an object in the scene
-// //////////////////////////////////////////////////////////////////////////////////
-//
-// ///////////////////////////////////////////////////////////////////////////////////////////////////////
-var map = new THREE.TextureLoader().load(
+
+const map = new THREE.TextureLoader().load(
   THREEx.ArToolkitContext.baseURL + "image/subtlejohn.png"
 );
-var material = new THREE.SpriteMaterial({
+const stickerMaterial = new THREE.SpriteMaterial({
   map: map,
   color: 0xffffff,
   fog: true
 });
-var stickerSprite = new THREE.Sprite(material);
+var stickerSprite = new THREE.Sprite(stickerMaterial);
 markerRoot4.add(stickerSprite);
-
-// const sGeo	= new THREE.SphereGeometry(0.1,20,20);
-// const sMat	= new THREE.MeshNormalMaterial({
-//   transparent: true,
-//   opacity: 0.5
-// });
-// sph	= new THREE.Mesh( sGeo, sMat );
-// sph.position.x = 1;
-// sph.position.y	= 0.8;
-// markerRoot4.add( sph );
 
 ////////////////////////////////////////////////////////////////////////////
 // class photo
 ///////////////////////////////////////////////////////////////////////////////
+
+let markerRoot5 = new THREE.Group();
+markerRoot5.name = "marker5";
+scene.add(markerRoot5);
+const photoMarkerControls = new THREEx.ArMarkerControls(
+  arToolkitContext,
+  markerRoot5,
+  {
+    type: "pattern",
+    patternUrl:
+      THREEx.ArToolkitContext.baseURL + "image/pattern-WDIpineapple.patt"
+  }
+);
+
+const photo = new THREE.TextureLoader().load(
+  THREEx.ArToolkitContext.baseURL + "image/WDi24-26.jpg"
+);
+const photoMaterial = new THREE.SpriteMaterial({
+  map: photo,
+  color: 0xffffff,
+  fog: true
+});
+var photoSprite = new THREE.Sprite(photoMaterial);
+markerRoot5.add(photoSprite);
+
+////animate
 
 const Controller = new function() {
   this.rotationSpeed = 0.02;
@@ -257,9 +248,6 @@ const animate = () => {
 
   sphere.position.x = Math.cos(step) * 0.5;
   sphere.position.y = Math.abs(Math.sin(step));
-
-  // stickerSprite.position.x = 0;
-  // stickerSprite.position.x = Math.cos(step) * 0.5;
 
   renderer.render(scene, camera);
 
@@ -281,6 +269,7 @@ markerRoot1 = scene.getObjectByName("marker1");
 markerRoot2 = scene.getObjectByName("marker2");
 markerRoot3 = scene.getObjectByName("marker3");
 markerRoot4 = scene.getObjectByName("marker4");
+markerRoot5 = scene.getObjectByName("marker5");
 
 // const container = new THREE.Group
 // scene.add(container)
