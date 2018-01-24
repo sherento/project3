@@ -166,7 +166,7 @@ const cubeMaterial = new THREE.MeshNormalMaterial({
   // side: THREE.DoubleSide
 });
 cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-cube.position.y = 0.8;
+cube.position.y = 0.1;
 markerRoot2.add(cube);
 
 /////////////////////////////////////////////////////////////////////////////
@@ -262,7 +262,7 @@ const animate = () => {
 
   dode.rotation.x += Controller.rotationSpeed;
 
-  cube.position.y = 2 + Math.abs(Math.sin(step));
+  cube.position.y = Math.abs(Math.sin(step));
 
   cube.rotation.x += Controller.rotationSpeed;
   cube.rotation.y += Controller.rotationSpeed;
