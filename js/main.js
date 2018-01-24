@@ -255,7 +255,6 @@ const animate = () => {
 };
 
 //
-
 init = () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.render(scene, camera);
@@ -264,15 +263,11 @@ init = () => {
 
 window.onload = init;
 
-// ;(function(){
 markerRoot1 = scene.getObjectByName("marker1");
 markerRoot2 = scene.getObjectByName("marker2");
 markerRoot3 = scene.getObjectByName("marker3");
 markerRoot4 = scene.getObjectByName("marker4");
 markerRoot5 = scene.getObjectByName("marker5");
-
-// const container = new THREE.Group
-// scene.add(container)
 
 // render the scene
 onRenderFcts.push(function() {
@@ -293,5 +288,3 @@ requestAnimationFrame(function animate(nowMsec) {
     onRenderFct(deltaMsec / 1000, nowMsec / 1000);
   });
 });
-
-//
