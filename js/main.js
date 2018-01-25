@@ -42,14 +42,6 @@ scene.add(camera);
 const arToolkitSource = new THREEx.ArToolkitSource({
   // to read from the webcam
   sourceType: "webcam"
-
-  // to read from an image
-  // sourceType : 'image',
-  // sourceUrl : THREEx.ArToolkitContext.baseURL + '../data/images/img.jpg',
-
-  // to read from a video
-  // sourceType : 'video',
-  // sourceUrl : THREEx.ArToolkitContext.baseURL + '../data/videos/headtracking.mp4',
 });
 
 arToolkitSource.init(function onReady() {
@@ -89,8 +81,6 @@ onRenderFcts.push(function() {
 
   arToolkitContext.update(arToolkitSource.domElement);
 });
-
-// ;(function(){
 
 //////////////////////////////////////////////////////////////////////////////
 //		markerRoot1
@@ -174,7 +164,7 @@ sphere.position.y = 0.8;
 markerRoot3.add(sphere);
 
 // ///////////////////////////////////////////////////////////////////////////
-// //wdi sticker
+// //wdi sticker/markerRoot4
 // ///////////////////////////////////////////////////////////////////////////
 
 let markerRoot4 = new THREE.Group();
@@ -201,7 +191,7 @@ var stickerSprite = new THREE.Sprite(stickerMaterial);
 markerRoot4.add(stickerSprite);
 
 ////////////////////////////////////////////////////////////////////////////
-// class photo
+// class photo/marker root5
 ///////////////////////////////////////////////////////////////////////////////
 
 let markerRoot5 = new THREE.Group();
@@ -228,7 +218,9 @@ const photoMaterial = new THREE.SpriteMaterial({
 var photoSprite = new THREE.Sprite(photoMaterial);
 markerRoot5.add(photoSprite);
 
+///////////////////////////////////////////////////////////////////////////////
 ////animate
+/////////////////////////////////////////////////////////////////////////////
 
 const Controller = new function() {
   this.rotationSpeed = 0.02;
