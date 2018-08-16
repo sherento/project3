@@ -1,14 +1,6 @@
 //initialise scene
 let step = 0;
 
-//instantiates a loader
-const loader = new THREE.OBJLoader();
-
-//load a resource
-loader.load("image/model.obj", function(object) {
-  scene.add(object);
-});
-
 //initialise renderer
 const renderer = new THREE.WebGLRenderer({
   antialias: true,
@@ -90,12 +82,20 @@ const modelMarkerControls = new THREEx.ArMarkerControls(
 );
 
 // add a gizmo in the center of the marker
-const geometry = new THREE.SphereGeometry(0.1, 20, 20);
+//instantiates a loader
+const loader = new THREE.OBJLoader();
+
+//load a resource
+const modelGeometry = new Promise(resolve => {
+  loader.load("image/model.obj", geometry => {
+    resolve(geometry);
+  });
+});
 const material = new THREE.MeshNormalMaterial({
   transparent: true,
   opacity: 0.8
 });
-object = new THREE.Mesh(geometry, material);
+object = new THREE.Mesh(modelGeometry, material);
 object.position.x = 1;
 object.position.y = 0.8;
 markerRoot.add(object);
